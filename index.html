@@ -3,8 +3,18 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/x-icon" href="./favicon.ico">
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./static/img/icon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="./static/img/icon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="./static/img/icon/favicon-16x16.png">
+  <link rel="manifest" href="./static/img/icon/site.webmanifest">
+  <link rel="mask-icon" href="./static/img/icon/safari-pinned-tab.svg" color="#aa0418">
+  <link rel="shortcut icon" href="./static/img/icon/favicon.ico">
+  <meta name="msapplication-TileColor" content="#1b1b1b">
+  <meta name="msapplication-config" content="./static/img/icon/browserconfig.xml">
+  <meta name="theme-color" content="#1b1b1b">
   <title>Sliding Puzzle</title>
   <link rel="stylesheet" href="./style.css" />
   <script src="./game.js" defer=""></script>
@@ -13,7 +23,7 @@
 <body>
   <div onclick="clearHighscore()" class="bar" id="header">Highscore: 0</div>
   <div id="content">
-    <div id="steps">Simple Sliding Puzzle Game</div>
+    <div id="steps">Simple 8 Puzzle Game</div>
     <div id="game-board">
       <div class="tile" id="0"></div>
       <div class="tile" id="1"></div>

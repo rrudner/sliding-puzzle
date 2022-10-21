@@ -3,6 +3,7 @@ const gameBoard = document.querySelector('#game-board');
 const stepsDiv = document.querySelector('#steps')
 const header = document.querySelector('#header')
 const gameState = [gameTiles[0], gameTiles[1], gameTiles[2], gameTiles[3], gameTiles[4], gameTiles[5], gameTiles[6], gameTiles[7], gameTiles[8]]
+const isGameOver = () => !gameState.some((element, index) => element.id != index)
 let steps = 0
 let highscore = 0
 let shuffled = false
@@ -38,8 +39,7 @@ gameBoard.addEventListener('click', (event) => {
     gameState[index(emptyX, emptyY)] = temp;
   }
 
-  endOfTheGame(isGameDone())
-
+  endOfTheGame(isGameOver())
 });
 
 function render(gameBoard, gameState) {
@@ -79,13 +79,6 @@ function index(x, y) {
   if (x === 2) return y + 6
 }
 
-function isGameDone() {
-  for (let i = 0; i < gameState.length; i++) {
-    if (!(gameState[i].id == i)) return false
-  }
-  return true
-}
-
 function endOfTheGame(done) {
   if (done && shuffled) {
     stepsDiv.innerHTML = `You won in ${steps} steps`
@@ -98,15 +91,10 @@ function endOfTheGame(done) {
 
 function shuffle() {
   const tempGameState = [gameTiles[0], gameTiles[1], gameTiles[2], gameTiles[3], gameTiles[4], gameTiles[5], gameTiles[6], gameTiles[7], gameTiles[8]]
-  let randomizedArray = []
-
-  while (randomizedArray.length < 9) {
-    let randomNumber = Math.floor(Math.random() * 9)
-    if (randomizedArray.indexOf(randomNumber) === -1) randomizedArray.push(randomNumber)
-  }
+  let shuffledArray = randomizedArray(9)
 
   for (let i = 0; i < gameState.length; i++) {
-    gameState[i] = tempGameState[randomizedArray[i]]
+    gameState[i] = tempGameState[shuffledArray[i]]
   }
 
   render(gameBoard, gameState)
@@ -128,4 +116,25 @@ function setHighscore(score) {
 
 function clearHighscore() {
   if (confirm('Are you sure you want to clear highscore?')) setHighscore(0)
+}
+
+function randomizedArray(size) {
+  let shuffled = []
+  while (shuffled.length < size) {
+    let randomNumber = Math.floor(Math.random() * size)
+    if (shuffled.indexOf(randomNumber) === -1) shuffled.push(randomNumber)
+  }
+  if (isSolvable(shuffled)) return shuffled
+  else return randomizedArray(size)
+
+}
+
+function isSolvable(puzzle) {
+  let inv = 0
+  for (let i = 0; i < puzzle.length; i++) {
+    for (let j = i + 1; j < puzzle.length; j++) {
+      if (puzzle[i] > puzzle[j] && puzzle[i] != 8 && puzzle[j] != 8) inv++
+    }
+  }
+  return 0 === inv % 2
 }

@@ -18,6 +18,9 @@ body {
   background-color: #1b1b1b;
   width: 100vw;
   height: 100vh;
+  overflow: hidden;
+  position: fixed;
+  top: 0px;
 }
 
 #game-board {
@@ -33,11 +36,11 @@ body {
   height: 100px;
   width: 100px;
   transition: top 0.2s, left 0.2s;
-  background: url(./image.png);
+  background: url(./static/img/image.png);
 }
 
 #\38 {
-  background: #1b1b1b09;
+  background: #ffffff0a;
   border: none;
 }
 
