@@ -1,7 +1,13 @@
 const gameTiles = document.querySelectorAll('.tile');
 const gameBoard = document.querySelector('#game-board');
+const stepsDiv = document.querySelector('#steps')
+const header = document.querySelector('#header')
 const gameState = [gameTiles[0], gameTiles[1], gameTiles[2], gameTiles[3], gameTiles[4], gameTiles[5], gameTiles[6], gameTiles[7], gameTiles[8]]
+let steps = 0
+let highscore = 0
+let shuffled = false
 render(gameBoard, gameState);
+getHighScoreFromCookie()
 
 gameBoard.addEventListener('click', (event) => {
   const target = event.target;
@@ -31,14 +37,17 @@ gameBoard.addEventListener('click', (event) => {
     gameState[index(x, y)] = gameState[index(emptyX, emptyY)];
     gameState[index(emptyX, emptyY)] = temp;
   }
+
+  endOfTheGame(isGameDone())
+
 });
 
 function render(gameBoard, gameState) {
   gameState.forEach((element, index) => {
     element.style.top = `${row(index) * 100}px`
     element.style.left = `${column(index) * 100}px`
-    element.style['background-position-y'] = `-${row(index) * 100}px`;
-    element.style['background-position-x'] = `-${column(index) * 100}px`;
+    element.style['background-position-y'] = `-${row(element.id) * 100}px`;
+    element.style['background-position-x'] = `-${column(element.id) * 100}px`;
     gameBoard.appendChild(element)
   });
 }
@@ -50,6 +59,10 @@ function moveElement(element1, element2) {
   element1.style.left = element2.style.left;
   element2.style.top = tempTop;
   element2.style.left = tempLeft;
+  if (shuffled) {
+    steps++
+    stepsDiv.innerHTML = `Steps: ${steps}`
+  }
 }
 
 function row(elementIndex) {
@@ -64,4 +77,55 @@ function index(x, y) {
   if (x === 0) return y
   if (x === 1) return y + 3
   if (x === 2) return y + 6
+}
+
+function isGameDone() {
+  for (let i = 0; i < gameState.length; i++) {
+    if (!(gameState[i].id == i)) return false
+  }
+  return true
+}
+
+function endOfTheGame(done) {
+  if (done && shuffled) {
+    stepsDiv.innerHTML = `You won in ${steps} steps`
+    gameBoard.style.pointerEvents = "none"
+    if (highscore > steps || highscore == 0) {
+      setHighscore(steps)
+    }
+  }
+}
+
+function shuffle() {
+  const tempGameState = [gameTiles[0], gameTiles[1], gameTiles[2], gameTiles[3], gameTiles[4], gameTiles[5], gameTiles[6], gameTiles[7], gameTiles[8]]
+  let randomizedArray = []
+
+  while (randomizedArray.length < 9) {
+    let randomNumber = Math.floor(Math.random() * 9)
+    if (randomizedArray.indexOf(randomNumber) === -1) randomizedArray.push(randomNumber)
+  }
+
+  for (let i = 0; i < gameState.length; i++) {
+    gameState[i] = tempGameState[randomizedArray[i]]
+  }
+
+  render(gameBoard, gameState)
+  steps = 0
+  stepsDiv.innerHTML = `Steps: ${steps}`
+  shuffled = true
+  gameBoard.style.pointerEvents = "auto"
+}
+
+function getHighScoreFromCookie() {
+  if (!(document.cookie == "")) setHighscore(parseInt(document.cookie))
+}
+
+function setHighscore(score) {
+  highscore = score
+  header.innerHTML = `Highscore: ${highscore}`
+  document.cookie = highscore
+}
+
+function clearHighscore() {
+  if (confirm('Are you sure you want to clear highscore?')) setHighscore(0)
 }

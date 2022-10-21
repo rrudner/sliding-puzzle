@@ -4,24 +4,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="./favicon.ico">
   <title>Sliding Puzzle</title>
   <link rel="stylesheet" href="./style.css" />
   <script src="./game.js" defer=""></script>
 </head>
 
 <body>
-  <div id="game-board">
-    <div class="tile" id="0"></div>
-    <div class="tile" id="1"></div>
-    <div class="tile" id="2"></div>
-    <div class="tile" id="3"></div>
-    <div class="tile" id="4"></div>
-    <div class="tile" id="5"></div>
-    <div class="tile" id="6"></div>
-    <div class="tile" id="7"></div>
-    <div class="tile" id="8"></div>
+  <div onclick="clearHighscore()" class="bar" id="header">Highscore: 0</div>
+  <div id="content">
+    <div id="steps">Simple Sliding Puzzle Game</div>
+    <div id="game-board">
+      <div class="tile" id="0"></div>
+      <div class="tile" id="1"></div>
+      <div class="tile" id="2"></div>
+      <div class="tile" id="3"></div>
+      <div class="tile" id="4"></div>
+      <div class="tile" id="5"></div>
+      <div class="tile" id="6"></div>
+      <div class="tile" id="7"></div>
+      <div class="tile" id="8"></div>
+    </div>
+    <button onclick="shuffle()" id="shuffle">Shuffle</button>
   </div>
+  <div class="bar" id="footer">
+    <a href=https://github.com/rrudner/sliding-puzzle>github</a>
 
+  </div>
 </body>
 
 </html>
